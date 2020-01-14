@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : Jan 14, 2020, 9:39:05 AM
+    Document   : showbook.jsp
+    Created on : Jan 14, 2020, 10:46:22 AM
     Author     : pupil
 --%>
 
@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Библиотека</h1>
-        <a href="createbook.jsp">Создание книги</a><br>
-        <a href="showbook">Список книг</a>
+        <h1>Список книг</h1>
+        <p>${listbooks}</p>
+        <a href="index.jsp">назад</a>
+    </body>
 </html>
