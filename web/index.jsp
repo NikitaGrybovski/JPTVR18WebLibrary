@@ -14,5 +14,8 @@
     <body>
         <h1>Библиотека</h1>
         <a href="createbook.jsp">Создание книги</a><br>
-        <a href="showbook">Список книг</a>
+        <a href="showbook">Список книг</a><br>
+        <a href="createReader.jsp">Создание пользователя</a><br>
+        <a href="showReader">Список пользователей</a><br>
+        <a href="giveBook">Выдать книгу</a>
 </html>
