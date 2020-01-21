@@ -10,6 +10,7 @@ import entity.History;
 import entity.Reader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -31,7 +32,10 @@ import session.ReaderFacade;
     "/showbook",
     "/createReader",
     "/showReader",
-    "/giveBook",
+    "/showGiveBook",
+    "/createHistory",
+    "/returnBookShow",
+    "/createReturnBook",
 })
 public class WebController extends HttpServlet {
     @EJB private BookFacade bookFacade;
@@ -98,18 +102,59 @@ public class WebController extends HttpServlet {
                 request.getRequestDispatcher("/showReader.jsp").forward(request, response);
                 break;
             
-            case "/giveBook":
-                List<Reader> listR = readerFacade.findAll();
-                List<Book> listB = bookFacade.findAll();
-                request.setAttribute("listBook", listB);
-                request.setAttribute("listReader", listR);
-                request.getRequestDispatcher("/giveBook.jsp").forward(request, response);
-                Book book = new Book();
-                Reader reader = new Reader();
+            case "/showGiveBook":
+                List<Book> books = bookFacade.findAll();
+                List<Reader> readers = readerFacade.findAll();
+                request.setAttribute("listBooks", books);
+                request.setAttribute("listReaders", readers);
+                request.getRequestDispatcher("/showGiveBook.jsp").forward(request, response);
+              
                 
-                History history = new History (new Date(), null, book, reader);
-                request.getRequestDispatcher("/giveBook.jsp").forward(request, response);
                 
+                
+                
+                break;
+            case "/createHistory":
+                String chooseBook = request.getParameter("chooseBook");
+                String chooseReader = request.getParameter("chooseReader");
+        
+                Book bookid = bookFacade.find(Long.parseLong(chooseBook));
+                Reader readerid = readerFacade.find(Long.parseLong(chooseReader));
+                History history = new History(new Date(),null,bookid,readerid);
+                historyFacade.create(history);
+                
+                
+                request.setAttribute("info","Выдана книга " + history.toString());
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                
+                
+                
+                
+                
+                
+                break;
+                
+            case "/returnBookShow":
+                List<History> listHistory = historyFacade.findAll();
+                ArrayList<History> listHistory2 = new ArrayList<History>();
+                for (History history : listHistory) {
+                    if(history.getReturnOfDate() == null){
+                        listHistory2.add(history);
+                    }
+                }
+                request.setAttribute("listHistory", listHistory2);
+                
+                
+                request.getRequestDispatcher("/returnBookShow.jsp").forward(request, response);
+                break;
+            case "/createReturnBook":
+                String chooseHistory = request.getParameter("chooseHistory");
+                
+                History historyid = historyFacade.find(Long.parseLong(chooseHistory));
+                historyid.setReturnOfDate(new Date());
+                historyFacade.edit(historyid);
+                request.setAttribute("info","Книгу вернули ");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
                
                 
