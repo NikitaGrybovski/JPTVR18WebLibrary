@@ -14,6 +14,8 @@
     <body>
         <h1>Библиотека</h1>
         <h2>${info}</h2>
+        <a href="showLogin">Вход</a><br>
+        <a href="logout">Выход</a><br>
         <a href="createbook.jsp">Создание книги</a><br>
         <a href="showbook">Список книг</a><br>
         <a href="createReader.jsp">Создание пользователя</a><br>
